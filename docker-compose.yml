@@ -1,0 +1,65 @@
+version: '3'
+services:
+
+  prd-nextcloud-db:
+    image: mariadb
+    container_name: prd-nextcloud-db
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    restart: always
+    networks:
+      - home-services
+    volumes:
+      - prd-nextcloud-db-data:/var/lib/mysql
+    env_file: prd-nextcloud-db.env
+
+  prd-nextcloud-redis:
+    image: redis:alpine
+    container_name: prd-nextcloud-redis
+    restart: always
+    networks:
+      - home-services
+
+  prd-nextcloud-app:
+    image: nextcloud:apache
+    container_name: prd-nextcloud-app
+    networks:
+      - home-services
+    ports:
+      - 8080:80
+    volumes:
+      - ./html:/var/www/html
+      - /mnt/slow-storage/coen:/var/www/slow-storage/coen
+      - /mnt/slow-storage/anne:/var/www/slow-storage/anne
+    env_file: prd-nextcloud-app.env
+    depends_on:
+      - prd-nextcloud-db
+      - prd-nextcloud-redis
+
+  prd-nextcloud-cron:
+    image: nextcloud:apache
+    container_name: prd-nextcloud-cron
+    restart: always
+    networks:
+      - home-services
+    volumes:
+      - ./html:/var/www/html
+    entrypoint: /cron.sh
+    depends_on:
+      - prd-nextcloud-db
+      - prd-nextcloud-redis
+
+# VOLUMES
+volumes:
+
+  prd-nextcloud-db-data:
+    name: prd-nextcloud-db-data
+
+# NETWORKS
+networks:
+
+  home-services:
+    driver: bridge
+    name: home-services
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
