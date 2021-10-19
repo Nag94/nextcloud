@@ -1,8 +1,24 @@
 version: '3'
 services:
 
+  prd-nextcloud-app:
+    image: docker-registry.theautomation.nl/coen/prd-nextcloud-app:latest
+    container_name: prd-nextcloud-app
+    networks:
+      - home-services
+    ports:
+      - 8080:80
+    volumes:
+      - ./html:/var/www/html
+     # - /mnt/slow-storage/coen:/var/www/slow-storage/coen
+     # - /mnt/slow-storage/anne:/var/www/slow-storage/anne
+    env_file: prd-nextcloud-app.env
+    depends_on:
+      - prd-nextcloud-db
+      - prd-nextcloud-redis
+
   prd-nextcloud-db:
-    image: mariadb
+    image: docker-registry.theautomation.nl/coen/prd-nextcloud-db:latest
     container_name: prd-nextcloud-db
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     restart: always
@@ -13,40 +29,11 @@ services:
     env_file: prd-nextcloud-db.env
 
   prd-nextcloud-redis:
-    image: redis:alpine
+    image: docker-registry.theautomation.nl/coen/prd-nextcloud-redis:latest
     container_name: prd-nextcloud-redis
     restart: always
     networks:
       - home-services
-
-  prd-nextcloud-app:
-    image: nextcloud:apache
-    container_name: prd-nextcloud-app
-    networks:
-      - home-services
-    ports:
-      - 8080:80
-    volumes:
-      - ./html:/var/www/html
-      - /mnt/slow-storage/coen:/var/www/slow-storage/coen
-      - /mnt/slow-storage/anne:/var/www/slow-storage/anne
-    env_file: prd-nextcloud-app.env
-    depends_on:
-      - prd-nextcloud-db
-      - prd-nextcloud-redis
-
-  prd-nextcloud-cron:
-    image: nextcloud:apache
-    container_name: prd-nextcloud-cron
-    restart: always
-    networks:
-      - home-services
-    volumes:
-      - ./html:/var/www/html
-    entrypoint: /cron.sh
-    depends_on:
-      - prd-nextcloud-db
-      - prd-nextcloud-redis
 
 # VOLUMES
 volumes:
