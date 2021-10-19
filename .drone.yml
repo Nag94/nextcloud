@@ -33,6 +33,7 @@ steps:
         from_secret: docker-registry-password
       registry: docker-registry.theautomation.nl
       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-app
+      dockerfile: app.dockerfile
       auto_tag: true
 
   - name: publish db
@@ -44,6 +45,7 @@ steps:
         from_secret: docker-registry-password
       registry: docker-registry.theautomation.nl
       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-db
+      dockerfile: db.dockerfile
       auto_tag: true
 
   - name: publish redis
@@ -55,6 +57,7 @@ steps:
         from_secret: docker-registry-password
       registry: docker-registry.theautomation.nl
       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-redis
+      dockerfile: redis.dockerfile
       auto_tag: true
 
 ---
