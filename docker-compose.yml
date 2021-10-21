@@ -10,7 +10,7 @@ services:
       - 8080:80
     volumes:
       - ./html:/var/www/html
-     # - /mnt/slow-storage/coen:/var/www/slow-storage/coen
+      - /mnt/slow-storage/coen:/var/www/slow-storage/coen
      # - /mnt/slow-storage/anne:/var/www/slow-storage/anne
     env_file: prd-nextcloud-app.env
     depends_on:
