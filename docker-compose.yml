@@ -9,9 +9,7 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ./html:/var/www/html
-      - /mnt/slow-storage/coen:/var/www/slow-storage/coen
-     # - /mnt/slow-storage/anne:/var/www/slow-storage/anne
+      - prd-nextcloud-app-data:/var/www/html
     env_file: prd-nextcloud-app.env
     depends_on:
       - prd-nextcloud-db
@@ -37,13 +35,13 @@ services:
 
 # VOLUMES
 volumes:
-
   prd-nextcloud-db-data:
     name: prd-nextcloud-db-data
+  prd-nextcloud-app-data:
+    name: prd-nextcloud-app-data
 
 # NETWORKS
 networks:
-
   home-services:
     driver: bridge
     name: home-services
