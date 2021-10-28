@@ -10,6 +10,7 @@ services:
       - 8080:80
     volumes:
       - prd-nextcloud-app-data:/var/www/html
+      - ./custom.config.php:/var/www/html/config/custom.config.php
     env_file: prd-nextcloud-app.env
     depends_on:
       - prd-nextcloud-db
@@ -32,17 +33,6 @@ services:
     restart: always
     networks:
       - home-services
-
-  prd-nextcloud-cron:
-    image: docker-registry.theautomation.nl/coen/prd-nextcloud-app:latest
-    container_name: prd-nextcloud-cron
-    restart: always
-    volumes:
-      - prd-nextcloud-app-data:/var/www/html
-    entrypoint: /cron.sh
-    depends_on:
-      - prd-nextcloud-db
-      - prd-nextcloud-redis
 
 # VOLUMES
 volumes:
