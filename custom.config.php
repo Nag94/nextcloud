@@ -1,6 +1,7 @@
 <?php
 /**
  * This is my custom config for Nextcloud, the values in these file take precedence over config.php
+ * Test
  */
 
 $CONFIG = array (
