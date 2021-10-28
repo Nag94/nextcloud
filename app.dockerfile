@@ -54,7 +54,7 @@ RUN mkdir -p \
 
 COPY supervisord.conf /
 
-COPY custom.config.php /
+COPY custom.config.php /var/www/html/
 
 ENV NEXTCLOUD_UPDATE=1
 
