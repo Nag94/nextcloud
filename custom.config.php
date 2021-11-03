@@ -15,7 +15,7 @@ $CONFIG = array (
     0 => '172.20.0.0/16',
   ),
   'defaultapp' => 'files',
-  'overwriteprotocol' => 'http',
+  'overwriteprotocol' => 'https',
   'default_phone_region' => 'NL',
 
   'enable_previews' => true,
