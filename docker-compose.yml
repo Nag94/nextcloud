@@ -18,11 +18,11 @@ services:
     container_name: prd-nextcloud-db
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     restart: always
+    env_file: prd-nextcloud-db.env
     networks:
       - nextcloud
     volumes:
       - prd-nextcloud-db-data:/var/lib/mysql
-    env_file: prd-nextcloud-db.env
 
   prd-nextcloud-redis:
     image: docker-registry.theautomation.nl/coen/prd-nextcloud-redis:latest
@@ -30,10 +30,14 @@ services:
     restart: always
     networks:
       - nextcloud
+    volumes:
+      - prd-nextcloud-redis-data:/data
 
 volumes:
   prd-nextcloud-db-data:
     name: prd-nextcloud-db-data
+  prd-nextcloud-redis-data:
+    name: prd-nextcloud-redis-data
 
 networks:
   reverse-proxy:

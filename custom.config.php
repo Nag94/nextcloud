@@ -7,7 +7,7 @@ $CONFIG = array (
 
   'trusted_proxies' =>
   array (
-    0 => '172.20.0.0/16',
+    0 => '172.22.0.0/16',
   ),
   'defaultapp' => 'files',
   'overwriteprotocol' => 'https',
