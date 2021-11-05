@@ -1,3 +1,2 @@
 *.env
-/apps
-/html
+/config

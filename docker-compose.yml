@@ -1,16 +1,13 @@
 version: '3'
 services:
-
   prd-nextcloud-app:
     image: docker-registry.theautomation.nl/coen/prd-nextcloud-app:latest
     container_name: prd-nextcloud-app
     networks:
-      - home-services
-    ports:
-      - 8080:80
+      - reverse-proxy
+      - nextcloud
     volumes:
-      - prd-nextcloud-app-data:/var/www/html
-      - ./custom.config.php:/var/www/html/config/custom.config.php
+      - ./config:/var/www/html
     env_file: prd-nextcloud-app.env
     depends_on:
       - prd-nextcloud-db
@@ -22,7 +19,7 @@ services:
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     restart: always
     networks:
-      - home-services
+      - nextcloud
     volumes:
       - prd-nextcloud-db-data:/var/lib/mysql
     env_file: prd-nextcloud-db.env
@@ -32,22 +29,18 @@ services:
     container_name: prd-nextcloud-redis
     restart: always
     networks:
-      - home-services
+      - nextcloud
 
-# VOLUMES
 volumes:
-
   prd-nextcloud-db-data:
     name: prd-nextcloud-db-data
-  prd-nextcloud-app-data:
-    name: prd-nextcloud-app-data
 
-# NETWORKS
 networks:
-
-  home-services:
+  reverse-proxy:
+    name: reverse-proxy
+  nextcloud:
+    name: nextcloud
     driver: bridge
-    name: home-services
     ipam:
       config:
-        - subnet: 172.20.0.0/16
+        - subnet: 172.27.0.0/16

@@ -5,11 +5,6 @@
 
 $CONFIG = array (
 
-  'trusted_domains' => 
-  array (
-    0 => '192.168.1.3:8080',
-    1 => 'cloud.theautomation.nl',
-  ),
   'trusted_proxies' =>
   array (
     0 => '172.20.0.0/16',
