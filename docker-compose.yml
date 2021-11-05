@@ -3,6 +3,7 @@ services:
   prd-nextcloud-app:
     image: docker-registry.theautomation.nl/coen/prd-nextcloud-app:latest
     container_name: prd-nextcloud-app
+    restart: always
     networks:
       - reverse-proxy
       - nextcloud
